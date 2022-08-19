@@ -3,6 +3,7 @@ import time
 from datetime import datetime, timezone
 import subprocess as sp
 import calcs
+import os
 
 sp.run("./export_keys.sh", shell=True)
 
