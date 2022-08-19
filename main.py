@@ -5,14 +5,14 @@ import subprocess as sp
 import calcs
 import os
 
-sp.run("./export_keys.sh", shell=True)
+sp.run(". ./export_keys.sh", shell=True)
 
 client = tweepy.Client(
-    bearer_token=os.environ["bearer_token"],
-    consumer_key=os.environ["consumer_key"],
-    consumer_secret=os.environ["consumer_secret"],
-    access_token=os.environ["access_token"],
-    access_token_secret=os.environ["access_token_secret"],
+    bearer_token=os.environ["BEARER_TOKEN"],
+    consumer_key=os.environ["CONSUMER_KEY"],
+    consumer_secret=os.environ["CONSUMER_SECRET"],
+    access_token=os.environ["ACCESS_TOKEN"],
+    access_token_secret=os.environ["ACCESS_TOKEN_SECRET"],
 )
 
 pdbinfo_id = client.get_user(username="pdbinfo", user_auth=True).data.id
@@ -98,7 +98,7 @@ class Printer(tweepy.StreamingClient):
 
 
 printer = Printer(
-    os.environ["bearer_token"]
+    os.environ["BEARER_TOKEN"]
 )
 printer.add_rules(stream_rule)
 printer.filter()
