@@ -5,8 +5,6 @@ import subprocess as sp
 import calcs
 import os
 
-sp.run(". ./export_keys.sh", shell=True)
-
 client = tweepy.Client(
     bearer_token=os.environ["BEARER_TOKEN"],
     consumer_key=os.environ["CONSUMER_KEY"],
