@@ -1,4 +1,5 @@
 import freesasa
+from main import *
 
 path = "/media/speedy/"
 
