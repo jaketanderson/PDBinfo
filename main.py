@@ -2,7 +2,7 @@ import tweepy
 import time
 from datetime import datetime, timezone
 import subprocess as sp
-import calcs
+from calcs import *
 import os
 
 client = tweepy.Client(
@@ -22,7 +22,7 @@ stream_rule = tweepy.StreamRule(
 path = "/media/speedy/"
 
 
-def fetch_pdb(entry):
+def fetch_pdb(original_tweet, entry):
 
     print("Fetching PDB ", entry, " from ", path)
 
@@ -48,11 +48,10 @@ def fetch_pdb(entry):
 
 
 class Printer(tweepy.StreamingClient):
-
     def on_tweet(self, tweet):
 
-        print(tweet.text)
         print("-" * 50)
+        print(tweet.text)
 
         text = tweet.text.lower()
 
@@ -69,34 +68,23 @@ class Printer(tweepy.StreamingClient):
                     start += 1
                 entry = text[start : start + 4].upper()
                 print(entry)
-            except:
-                print("Error parsing/importing PDB ID.")
-                pass
-
-            try:
-                fetch_pdb(entry)
-            except:
-                print(f"Error downloading PDB {entry}.")
-                pass
-
-            try:
-                assert protonate(entry), Exception("Protonation unsuccessful")
-                sasa = get_sasa(entry)
-                print(sasa)
 
             except:
-                print(f"Error calculating SASA for {entry}.")
+                client.create_tweet(
+                    in_reply_to_tweet_id=original_tweet.id,
+                    text=f"Error parsing PDB ID.",
+                )
                 pass
 
-            try:
-                reply(tweet, sasa)
-            except:
-                print(f"Error tweeting SASA reply.")
-                pass
+            fetch_pdb(tweet, entry)
+
+            if text.find("-noprot") == -1:
+
+                protonate(tweet, entry)
+
+            get_sasa(tweet, entry)
 
 
-printer = Printer(
-    os.environ["BEARER_TOKEN"]
-)
+printer = Printer(os.environ["BEARER_TOKEN"])
 printer.add_rules(stream_rule)
 printer.filter()
