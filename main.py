@@ -76,13 +76,13 @@ class Printer(tweepy.StreamingClient):
                 )
                 pass
 
-            fetch_pdb(tweet, entry)
+            if fetch_pdb(tweet, entry):
 
-            if text.find("-noprot") == -1:
+                if text.find("-noprot") == -1:
 
-                calcs.protonate(client, tweet, entry)
+                    calcs.protonate(client, tweet, entry)
 
-            calcs.get_sasa(client, tweet, entry)
+                calcs.get_sasa(client, tweet, entry)
 
 
 printer = Printer(os.environ["BEARER_TOKEN"])
