@@ -6,6 +6,7 @@ path = "/media/speedy/"
 def protonate(client, original_tweet, entry):
 
     try:
+        print(f"Protonating {path}{entry}")
         sp.run(
             f"obabel -ipdb {path}{entry}.pdb -opdb {path}{entry}.pdb -p 7.4",
             shell=True,
