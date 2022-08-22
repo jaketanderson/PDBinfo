@@ -2,7 +2,7 @@ import tweepy
 import time
 from datetime import datetime, timezone
 import subprocess as sp
-from calcs import *
+import calcs
 import os
 
 client = tweepy.Client(
@@ -80,9 +80,9 @@ class Printer(tweepy.StreamingClient):
 
             if text.find("-noprot") == -1:
 
-                calcs.protonate(tweet, entry)
+                calcs.protonate(client, tweet, entry)
 
-            calcs.get_sasa(tweet, entry)
+            calcs.get_sasa(client, tweet, entry)
 
 
 printer = Printer(os.environ["BEARER_TOKEN"])

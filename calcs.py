@@ -1,10 +1,9 @@
 import freesasa
-from main import *
 
 path = "/media/speedy/"
 
 
-def protonate(original_tweet, entry):
+def protonate(client, original_tweet, entry):
 
     try:
         sp.run(
@@ -22,10 +21,11 @@ def protonate(original_tweet, entry):
     return True
 
 
-def get_sasa(original_tweet, entry):
+def get_sasa(client, original_tweet, entry):
 
     nslices = 1000
-    if "-s " in original_tweet.text:
+    text = original_tweet.text
+    if "-s " in text:
         start = text.find("-s ") + len("-s ")
 
         try:
