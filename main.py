@@ -76,11 +76,7 @@ class Printer(tweepy.StreamingClient):
                 )
                 pass
 
-            if fetch_pdb(tweet, entry):
-
-                if text.find("-noprot") == -1:
-
-                    calcs.protonate(client, tweet, entry)
+            if fetch_pdb(tweet, entry) and text.find("-noprot") == -1 and calcs.protonate(client, tweet, entry):
 
                 calcs.get_sasa(client, tweet, entry)
 
