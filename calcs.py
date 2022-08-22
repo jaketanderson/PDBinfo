@@ -33,6 +33,7 @@ def get_sasa(client, original_tweet, entry):
             while text[end].isnumeric():
                 end += 1
             nslices = int(text[start : end + 1])
+            print(nslices)
             assert 0 < nslices <= 5000
 
         except:
