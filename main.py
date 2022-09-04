@@ -80,7 +80,7 @@ class Printer(tweepy.StreamingClient):
                 )
                 return
 
-        else if "-random" in text:
+        elif "-random" in text:
 
             try:
                 with open("random_pdb_ids.txt", "r") as f:
@@ -102,7 +102,7 @@ class Printer(tweepy.StreamingClient):
 
             calcs.get_sasa(client, tweet, entry)
 
-        else if fetch_pdb(tweet, entry) and text.find("-noprot") != -1:
+        elif fetch_pdb(tweet, entry) and text.find("-noprot") != -1:
 
             calcs.get_sasa(client, tweet, entry)
 
