@@ -107,8 +107,9 @@ class Printer(tweepy.StreamingClient):
 
                 calcs.get_sasa(client, tweet, entry)
 
-            elif (not "-noprot" in text) and calcs.protonate(client, tweet, entry):
+            else:
 
+                calcs.protonate(client, tweet, entry)
                 calcs.get_sasa(client, tweet, entry)
 
 

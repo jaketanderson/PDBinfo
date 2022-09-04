@@ -24,7 +24,7 @@ def protonate(client, original_tweet, entry):
 
 def get_sasa(client, original_tweet, entry):
 
-    nslices = 1000
+    nslices = 5000
     text = original_tweet.text
     if "-s " in text:
         start = text.find("-s ") + len("-s ")
@@ -35,12 +35,12 @@ def get_sasa(client, original_tweet, entry):
                 end += 1
             nslices = int(text[start : end + 1])
             print(nslices)
-            assert 0 < nslices <= 5000
+            assert 0 < nslices <= 10000
 
         except:
             client.create_tweet(
                 in_reply_to_tweet_id=original_tweet.id,
-                text=f"There was an error with your specified number of slices for the SASA calculation. Please use format: -s [0<integer<=5000]",
+                text=f"There was an error with your specified number of slices for the SASA calculation. Please use format: -s [0<integer<=10000]",
             )
             return False
 
