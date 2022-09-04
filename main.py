@@ -96,15 +96,20 @@ class Printer(tweepy.StreamingClient):
                 )
                 return
 
+        else:
+
+            return
+        
         # summary function will go here
+        if fetch_pdb(tweet, entry):
 
-        if fetch_pdb(tweet, entry) and text.find("-noprot") == -1 and calcs.protonate(client, tweet, entry):
+            if "-noprot" in text:
 
-            calcs.get_sasa(client, tweet, entry)
+                calcs.get_sasa(client, tweet, entry)
 
-        elif fetch_pdb(tweet, entry) and text.find("-noprot") != -1:
+            elif (not "-noprot" in text) and calcs.protonate(client, tweet, entry):
 
-            calcs.get_sasa(client, tweet, entry)
+                calcs.get_sasa(client, tweet, entry)
 
 
 printer = Printer(os.environ["BEARER_TOKEN"])
