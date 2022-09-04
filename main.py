@@ -87,7 +87,7 @@ class Printer(tweepy.StreamingClient):
 
                     lines = f.readlines()
                     rng = np.random.default_rng()
-                    entry = lines[rng.integers(0, len(lines))]
+                    entry = lines[rng.integers(0, len(lines))].strip("\n")
 
             except:
                 client.create_tweet(
