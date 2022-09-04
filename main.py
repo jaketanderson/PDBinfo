@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import subprocess as sp
 import calcs
 import os
+import numpy as np
 
 client = tweepy.Client(
     bearer_token=os.environ["BEARER_TOKEN"],
@@ -19,7 +20,10 @@ stream_rule = tweepy.StreamRule(
     value=f"(has:mentions @pdbinfo) OR (to:{int(pdbinfo_id)})"
 )
 
-path = "/media/speedy/"
+# Ensure data path is ready
+path = "working-data/"
+if not os.path.exists(path):
+    os.makedirs(path)
 
 
 def fetch_pdb(original_tweet, entry):
@@ -74,11 +78,33 @@ class Printer(tweepy.StreamingClient):
                     in_reply_to_tweet_id=original_tweet.id,
                     text=f"Error parsing PDB ID.",
                 )
-                pass
+                return
 
-            if fetch_pdb(tweet, entry) and text.find("-noprot") == -1 and calcs.protonate(client, tweet, entry):
+        else if "-random" in text:
 
-                calcs.get_sasa(client, tweet, entry)
+            try:
+                with open("random_pdb_ids.txt", "r") as f:
+
+                    lines = f.readlines()
+                    rng = np.random.default_rng()
+                    entry = lines[rng.integers(0, len(lines))]
+
+            except:
+                client.create_tweet(
+                    in_reply_to_tweet_id=original_tweet.id,
+                    text=f"Error finding you a random PDB ID. This is my fault, not yours!",
+                )
+                return
+
+        # summary function will go here
+
+        if fetch_pdb(tweet, entry) and text.find("-noprot") == -1 and calcs.protonate(client, tweet, entry):
+
+            calcs.get_sasa(client, tweet, entry)
+
+        else if fetch_pdb(tweet, entry) and text.find("-noprot") != -1:
+
+            calcs.get_sasa(client, tweet, entry)
 
 
 printer = Printer(os.environ["BEARER_TOKEN"])

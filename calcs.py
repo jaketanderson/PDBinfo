@@ -1,6 +1,6 @@
 import freesasa
 
-path = "/media/speedy/"
+path = "working-data/"
 
 
 def protonate(client, original_tweet, entry):
